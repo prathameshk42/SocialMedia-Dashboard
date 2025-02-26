@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "social-sync-c8bd0"
+  },
+  "targets": {
+    "social-sync-c8bd0": {
+      "hosting": {
+        "social-sync-c8bd0": [
+          "social-sync-c8bd0"
+        ]
+      }
+    }
+  }
+}

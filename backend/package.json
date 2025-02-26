@@ -1,0 +1,26 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "backend",
+    "main": "index.js",
+    "repository": "https://github.com/edith01/cse5325.git",
+    "author": "Imran",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "build:watch": "tsc --watch",
+        "serve": "npm run build && firebase emulators:start --only functions",
+        "debug": "npm run build && firebase emulators:start --inspect-functions --only functions",
+        "shell": "npm run build && firebase functions:shell",
+        "start": "npm run shell",
+        "deploy": "firebase deploy --only functions",
+        "logs": "firebase functions:log"
+    },
+    "dependencies": {
+        "axios": "^1.7.7",
+        "express": "^4.21.1",
+        "firebase-admin": "^12.7.0",
+        "firebase-functions": "^6.1.0"
+    },
+    "type": "module"
+}
