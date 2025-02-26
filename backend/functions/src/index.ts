@@ -7,24 +7,27 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import * as bodyParser from 'body-parser';
 import axios from 'axios';
 import fetch from 'node-fetch'; // Ensure you install node-fetch for API requests
+import * as dotenv from 'dotenv';
 
-// Secure API Keys (Replace with your actual keys)
+dotenv.config(); // Load environment variables from .env file
+
+// Secure API Keys using environment variables
 const openAI = new openAiModule({
-    apiKey: "YOUR_OPENAI_API_KEY_HERE"
+    apiKey: process.env.OPENAI_API_KEY
 });
 
 const TWITTER_API_URL = 'https://api.x.com/oauth/request_token';
 const TWITTER_ACCESS_TOKEN_URL = 'https://api.x.com/oauth/access_token';
-const CONSUMER_KEY = "YOUR_TWITTER_CONSUMER_KEY_HERE";
-const CONSUMER_SECRET = "YOUR_TWITTER_CONSUMER_SECRET_HERE";
+const CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+const CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
 
-const CALLBACK = "YOUR_CALLBACK_URL_HERE";
-const INSTA_APP_ID = "YOUR_INSTAGRAM_APP_ID_HERE";
-const INSTA_APP_SECRET = "YOUR_INSTAGRAM_APP_SECRET_HERE";
-const INSTA_CALLBACK = "YOUR_INSTAGRAM_CALLBACK_URL_HERE";
-const FACEBOOK_APP_ID = "YOUR_FACEBOOK_APP_ID_HERE";
-const FACEBOOK_APP_SECRET = "YOUR_FACEBOOK_APP_SECRET_HERE";
-const FACEBOOK_REDIRECT = "YOUR_FACEBOOK_CALLBACK_URL_HERE";
+const CALLBACK = process.env.TWITTER_CALLBACK_URL;
+const INSTA_APP_ID = process.env.INSTA_APP_ID;
+const INSTA_APP_SECRET = process.env.INSTA_APP_SECRET;
+const INSTA_CALLBACK = process.env.INSTA_CALLBACK_URL;
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+const FACEBOOK_REDIRECT = process.env.FACEBOOK_CALLBACK_URL;
 
 // Setup Facebook Authentication
 passport.use(
@@ -45,7 +48,7 @@ passport.use(
 exports.getTwitterRequestToken = functions.https.onRequest({ cors: true }, async (req: any, res: any) => {
     try {
         if (!CONSUMER_KEY || !CONSUMER_SECRET) {
-            return res.status(500).json({ error: 'Twitter API keys are missing. Please add them.' });
+            return res.status(500).json({ error: 'Twitter API keys are missing. Please add them to environment variables.' });
         }
 
         const oauthNonce = Math.floor(Math.random() * 1e12).toString();
@@ -102,8 +105,8 @@ exports.getTwitterRequestToken = functions.https.onRequest({ cors: true }, async
 // OpenAI Chat Function
 exports.chatMessage = functions.https.onRequest({ cors: true }, async (req: any, res: any) => {
     try {
-        if (openAI.apiKey === "YOUR_OPENAI_API_KEY_HERE") {
-            return res.status(500).json({ error: 'OpenAI API key is missing. Please add it.' });
+        if (!process.env.OPENAI_API_KEY) {
+            return res.status(500).json({ error: 'OpenAI API key is missing. Please add it to environment variables.' });
         }
 
         const { messages } = req.body;
